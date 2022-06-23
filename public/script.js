@@ -34,13 +34,16 @@ $(document).ready(function () {
     const description = $(this).children("article").text();
     $(".modify-note input").val($.trim(title));
     $(".modify-note textarea").val($.trim(description));
-    $(".modify-note").css("transform", "translateX(0)");
+    $(".modify-note").toggleClass("hidden");
   });
   $(".new-note").click(function () {
-    $(".add-note").css("transform", "translateX(0)");
+    $(".add-note").toggleClass("hidden");
   });
-  $(".close").on("click", function () {
-    $(".add-note,.modify-note").css("transform", "translateX(100%)");
+  $(".add-note .close").click(function () {
+    $(".add-note").toggleClass("hidden");
+  });
+  $(".modify-note .close").click(function () {
+    $(".modify-note").toggleClass("hidden");
   });
 
   $(".edit-btn").click(function () {
@@ -151,7 +154,7 @@ function editNote(id, data) {
   })
     .then((response) => {
       display();
-      $(".add-note,.modify-note").css("transform", "translateX(100%)");
+      $(".modify-note").addClass("hidden");
       return notyf.success(response.message);
     })
     .catch((error) => {
@@ -166,7 +169,7 @@ function deleteNote(id) {
   })
     .then((response) => {
       display();
-      $(".add-note,.modify-note").css("transform", "translateX(100%)");
+      $(".modify-note").addClass("hidden");
       return notyf.success(response.message);
     })
     .catch((error) => {
@@ -183,7 +186,7 @@ function newNote(data) {
   })
     .then((response) => {
       display();
-      $(".add-note,.modify-note").css("transform", "translateX(100%)");
+      $(".modify-note").addClass("hidden");
       return notyf.success(response.message);
     })
     .catch((error) => {
