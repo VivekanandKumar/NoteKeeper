@@ -29,7 +29,7 @@ app.set("view engine", "ejs");
 
 // server configuration
 const PORT = process.env.PORT || 8080;
-app.listen(8080, (err) => {
+app.listen(PORT, (err) => {
   if (err) throw err;
   console.log(`Server running on port ${PORT}`);
 });
