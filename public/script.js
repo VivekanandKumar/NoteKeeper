@@ -2,8 +2,9 @@ const notyf = new Notyf({
   position: { x: "right", y: "top" },
   duration: 2500,
 });
-let noteId;
+
 $(document).ready(function () {
+  let noteId = "";
   $("#signup-btn").click(function () {
     const name = $.trim($("#name").val());
     const email = $.trim($("#email").val());
@@ -34,7 +35,6 @@ $(document).ready(function () {
     $(".modify-note input").val($.trim(title));
     $(".modify-note textarea").val($.trim(description));
     $(".modify-note").css("transform", "translateX(0)");
-    noteId = "";
   });
   $(".new-note").click(function () {
     $(".add-note").css("transform", "translateX(0)");
@@ -50,12 +50,10 @@ $(document).ready(function () {
       return notyf.error("All fields are required");
     }
     const data = { title, description };
-    editNote(noteId, data);
-    noteId = "";
+    return editNote(noteId, data);
   });
   $(".delete-btn").click(function () {
-    deleteNote(noteId);
-    noteId = "";
+    return deleteNote(noteId);
   });
 
   $(".add").click(function () {
@@ -146,8 +144,8 @@ function login(data) {
 
 function editNote(id, data) {
   $.ajax({
-    url: `/${id}`,
     type: "PATCH",
+    url: `/${id}`,
     dataType: "json",
     data: data,
   })

@@ -23,7 +23,7 @@ connect(process.env.MONGO_URI, {
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+
 app.use(cookieParser());
 app.use("/user", userRoute);
 app.use("/", noteRoute);

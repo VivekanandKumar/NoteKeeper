@@ -26,14 +26,14 @@ const getNotes = async (req, res) => {
 };
 const updateNote = async (req, res) => {
   const { title, description } = req.body;
-  const id = req.params.id;
+  const noteId = req.params.id;
   const modifiedNote = {
     title,
     description,
     userId: req.UserId,
   };
   try {
-    await Notes.findByIdAndUpdate(id, modifiedNote, { new: true });
+    await Notes.findByIdAndUpdate(noteId, modifiedNote, { new: true });
     return res.json({ message: "Note Modified" });
   } catch (err) {
     console.log(err);
@@ -41,7 +41,7 @@ const updateNote = async (req, res) => {
   }
 };
 const deleteNote = async (req, res) => {
-  const id = req.params.id;
+  const id = req.params.Id;
   try {
     await Notes.findByIdAndRemove(id);
     return res.json({ message: "Note Deleted" });
