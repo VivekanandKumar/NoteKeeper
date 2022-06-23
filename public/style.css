@@ -3,7 +3,7 @@ body {
   position: relative !important;
 }
 .container {
-  min-height: calc(100vh - 84px) !important;
+  min-height: calc(100vh - 60px) !important;
 }
 .navlinks a {
   font-weight: 500;
