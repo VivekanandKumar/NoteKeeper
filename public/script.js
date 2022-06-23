@@ -186,7 +186,7 @@ function newNote(data) {
   })
     .then((response) => {
       display();
-      $(".modify-note").addClass("hidden");
+      $(".add-note").addClass("hidden");
       return notyf.success(response.message);
     })
     .catch((error) => {
