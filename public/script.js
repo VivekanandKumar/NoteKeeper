@@ -1,0 +1,194 @@
+const notyf = new Notyf({
+  position: { x: "right", y: "top" },
+  duration: 2500,
+});
+let noteId;
+$(document).ready(function () {
+  $("#signup-btn").click(function () {
+    const name = $.trim($("#name").val());
+    const email = $.trim($("#email").val());
+    const password = $.trim($("#pass").val());
+
+    if (!name || !email || !password) {
+      return notyf.error("All fields are required");
+    }
+    const data = { name, email, password };
+    signup(data);
+  });
+
+  $("#login-btn").click(function () {
+    const email = $.trim($("#email").val());
+    const password = $.trim($("#pass").val());
+
+    if (!email || !password) {
+      return notyf.error("All fields are required");
+    }
+    const data = { email, password };
+    login(data);
+  });
+
+  $(".notes").on("click", ".note", function () {
+    noteId = $(this).attr("id");
+    const title = $(this).children("header").text();
+    const description = $(this).children("article").text();
+    $(".modify-note input").val($.trim(title));
+    $(".modify-note textarea").val($.trim(description));
+    $(".modify-note").css("transform", "translateX(0)");
+    noteId = "";
+  });
+  $(".new-note").click(function () {
+    $(".add-note").css("transform", "translateX(0)");
+  });
+  $(".close").on("click", function () {
+    $(".add-note,.modify-note").css("transform", "translateX(100%)");
+  });
+
+  $(".edit-btn").click(function () {
+    const title = $.trim($(".modify-note .master input").val());
+    const description = $.trim($(".modify-note .master textarea").val());
+    if (!title || !description) {
+      return notyf.error("All fields are required");
+    }
+    const data = { title, description };
+    editNote(noteId, data);
+    noteId = "";
+  });
+  $(".delete-btn").click(function () {
+    deleteNote(noteId);
+    noteId = "";
+  });
+
+  $(".add").click(function () {
+    const title = $.trim($(".add-note input").val());
+    const description = $.trim($(".add-note textarea").val());
+    if (!title || !description) {
+      return notyf.error("All fields are required");
+    }
+    const data = { title, description };
+    newNote(data);
+    $(".add-note input").val("");
+    $(".add-note textarea").val("");
+  });
+});
+
+function display() {
+  $.ajax({
+    url: "/notes",
+    type: "GET",
+  })
+    .then((notes) => {
+      $(".notes").empty();
+      notes.forEach((note) => {
+        const date = moment(note.updatedAt).format("DD MMMM, YYYY");
+        const time = moment(note.updatedAt).format("hh:mm a");
+        $(".notes").prepend(
+          `<div id=${note._id} class="note shadow-md rounded-md border p-3">
+    <header class="font-semibold text-xl mb-1">
+        ${note.title}
+    </header>
+    <article class="text-sm py-2 overflow-hidden h-16">
+        ${note.description}
+    </article>
+    <footer class="mt-4 flex justify-between items-center text-sm font-medium">
+        <div class="">
+            ${date}
+        </div>
+        <div class="">
+            ${time}
+        </div>
+    </footer>
+</div>`
+        );
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+function signup(data) {
+  $.ajax({
+    url: "/user/register",
+    type: "POST",
+    dataType: "json",
+    data: data,
+  })
+    .then((response) => {
+      console.log(response.message);
+      if (response.redirect) {
+        return window.open(response.redirect, "_self");
+      }
+      return notyf.error(response.message);
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+}
+
+function login(data) {
+  $.ajax({
+    url: "/user/login",
+    type: "POST",
+    dataType: "json",
+    data: data,
+  })
+    .then((response) => {
+      console.log(response.message);
+      if (response.redirect) {
+        return window.open(response.redirect, "_self");
+      }
+      return notyf.error(response.message);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+function editNote(id, data) {
+  $.ajax({
+    url: `/${id}`,
+    type: "PATCH",
+    dataType: "json",
+    data: data,
+  })
+    .then((response) => {
+      display();
+      $(".add-note,.modify-note").css("transform", "translateX(100%)");
+      return notyf.success(response.message);
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+}
+
+function deleteNote(id) {
+  $.ajax({
+    url: `/${id}`,
+    type: "DELETE",
+  })
+    .then((response) => {
+      display();
+      $(".add-note,.modify-note").css("transform", "translateX(100%)");
+      return notyf.success(response.message);
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+}
+
+function newNote(data) {
+  $.ajax({
+    url: "/",
+    type: "POST",
+    dataType: "json",
+    data,
+  })
+    .then((response) => {
+      display();
+      $(".add-note,.modify-note").css("transform", "translateX(100%)");
+      return notyf.success(response.message);
+    })
+    .catch((error) => {
+      return console.log(error);
+    });
+}

@@ -2,9 +2,6 @@ const Notes = require("../models/Note");
 
 const newNote = async (req, res) => {
   const { title, description } = req.body;
-  if (!title || !description) {
-    return res.json({ message: "All fields required" });
-  }
   try {
     const newNote = await new Notes({
       title,
@@ -12,7 +9,7 @@ const newNote = async (req, res) => {
       userId: req.userId,
     });
     await newNote.save();
-    return res.status(201).json(newNote);
+    return res.json({ message: "New Note Created" });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Something went wrong" });
@@ -37,7 +34,7 @@ const updateNote = async (req, res) => {
   };
   try {
     await Notes.findByIdAndUpdate(id, modifiedNote, { new: true });
-    return res.status(200).json(modifiedNote);
+    return res.json({ message: "Note Modified" });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Something went wrong" });
@@ -46,12 +43,18 @@ const updateNote = async (req, res) => {
 const deleteNote = async (req, res) => {
   const id = req.params.id;
   try {
-    const deletedNote = await Notes.findByIdAndRemove(id);
-    return res.status(202).json(deletedNote);
+    await Notes.findByIdAndRemove(id);
+    return res.json({ message: "Note Deleted" });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
-
-module.exports = { newNote, getNotes, updateNote, deleteNote };
+const viewNote = (req, res) => {
+  const token = req.cookies.authtoken;
+  if (!token) {
+    return res.redirect("/user/login");
+  }
+  return res.render("index", { title: "Homepage", token });
+};
+module.exports = { newNote, getNotes, updateNote, deleteNote, viewNote };
