@@ -8,7 +8,10 @@ const cors = require("cors");
 const app = express();
 
 // Database Connection
-connect(process.env.MONGO_URI)
+connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
   .then(() => {
     console.log("Database Connection established");
   })
