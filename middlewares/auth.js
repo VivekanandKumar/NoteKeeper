@@ -8,16 +8,16 @@ const auth = async (req, res, next) => {
       const isUser = await Users.findById(user.id);
       if (!isUser) {
         res.clearCookie("authtoken");
-        return res.render("error", { title: "User not found", token });
+        return res.render("error");
       }
       req.userId = user.id;
     } else {
-      return res.render("error", { title: "User not found", token });
+      return res.render("error");
     }
     next();
   } catch (err) {
     console.log(err);
-    return res.render("error", { title: "User not found", token });
+    return res.render("error");
   }
 };
 

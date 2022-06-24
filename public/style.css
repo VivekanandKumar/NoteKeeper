@@ -37,7 +37,7 @@ nav {
   max-height: 50vh !important;
   resize: none !important;
 }
-*::-webkit-scrollbar {
+textarea::-webkit-scrollbar {
   display: none !important;
 }
 .links a {

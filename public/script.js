@@ -2,7 +2,7 @@ const notyf = new Notyf({
   position: { x: "right", y: "top" },
   duration: 2500,
 });
-
+let limit = 10;
 $(document).ready(function () {
   let noteId = "";
   $("#signup-btn").click(function () {
@@ -70,11 +70,18 @@ $(document).ready(function () {
     $(".add-note input").val("");
     $(".add-note textarea").val("");
   });
+  $(document).scroll(() => {
+    if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
+      limit += 6;
+      display(limit);
+    }
+  });
 });
 
-function display() {
+function display(lim) {
+  var limit = lim.toString();
   $.ajax({
-    url: "/notes",
+    url: `/notes/${limit}`,
     type: "GET",
   })
     .then((notes) => {
@@ -82,7 +89,7 @@ function display() {
       notes.forEach((note) => {
         const date = moment(note.updatedAt).format("DD MMMM, YYYY");
         const time = moment(note.updatedAt).format("hh:mm a");
-        $(".notes").prepend(
+        $(".notes").append(
           `<div id=${note._id} class="note shadow-md rounded-md border p-3">
     <header class="font-semibold text-xl mb-1">
         ${note.title}
@@ -153,7 +160,7 @@ function editNote(id, data) {
     data: data,
   })
     .then((response) => {
-      display();
+      display(10);
       $(".modify-note").toggleClass("hidden");
       return notyf.success(response.message);
     })
@@ -168,7 +175,7 @@ function deleteNote(id) {
     type: "DELETE",
   })
     .then((response) => {
-      display();
+      display(10);
       $(".modify-note").toggleClass("hidden");
       return notyf.success(response.message);
     })
@@ -185,7 +192,7 @@ function newNote(data) {
     data,
   })
     .then((response) => {
-      display();
+      display(10);
       $(".add-note").toggleClass("hidden");
       return notyf.success(response.message);
     })

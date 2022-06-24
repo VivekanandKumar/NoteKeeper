@@ -1,5 +1,4 @@
 const Notes = require("../models/Note");
-
 const newNote = async (req, res) => {
   const { title, description } = req.body;
   try {
@@ -17,7 +16,10 @@ const newNote = async (req, res) => {
 };
 const getNotes = async (req, res) => {
   try {
-    const notes = await Notes.find({ userId: req.userId });
+    let limits = req.params.limit;
+    const notes = await Notes.find({ userId: req.userId })
+      .sort({ updatedAt: -1 })
+      .limit(Number(limits));
     return res.status(200).json(notes);
   } catch (err) {
     console.log(err);
