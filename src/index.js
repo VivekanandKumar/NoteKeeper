@@ -4,7 +4,6 @@ const cookieParser = require("cookie-parser");
 const { connect } = require("mongoose");
 const userRoute = require("../routes/userRouter");
 const noteRoute = require("../routes/noteRouter");
-const cors = require("cors");
 const app = express();
 
 // Database Connection
@@ -20,7 +19,6 @@ connect(process.env.MONGO_URI, {
   });
 
 // middlewares
-app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
