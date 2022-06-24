@@ -1,6 +1,7 @@
 body {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
   background: rgb(252, 252, 252) !important;
-  position: relative !important;
 }
 .container {
   min-height: calc(100vh - 60px) !important;
@@ -48,4 +49,9 @@ nav {
 .add-note,
 .modify-note {
   background: rgba(0, 0, 0, 0.4);
+  transition: transform 0.6s ease-in-out;
+}
+
+.hideme {
+  transform: translateX(100%) !important;
 }
