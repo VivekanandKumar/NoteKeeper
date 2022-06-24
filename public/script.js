@@ -34,16 +34,16 @@ $(document).ready(function () {
     const description = $(this).children("article").text();
     $(".modify-note input").val($.trim(title));
     $(".modify-note textarea").val($.trim(description));
-    $(".modify-note").toggleClass("hideme");
+    $(".modify-note").toggleClass("hidden");
   });
   $(".new-note").click(function () {
-    $(".add-note").toggleClass("hideme");
+    $(".add-note").toggleClass("hidden");
   });
   $(".add-note .close").click(function () {
-    $(".add-note").toggleClass("hideme");
+    $(".add-note").toggleClass("hidden");
   });
   $(".modify-note .close").click(function () {
-    $(".modify-note").toggleClass("hideme");
+    $(".modify-note").toggleClass("hidden");
   });
 
   $(".edit-btn").click(function () {
@@ -154,7 +154,7 @@ function editNote(id, data) {
   })
     .then((response) => {
       display();
-      $(".modify-note").toggleClass("hideme");
+      $(".modify-note").toggleClass("hidden");
       return notyf.success(response.message);
     })
     .catch((error) => {
@@ -169,7 +169,7 @@ function deleteNote(id) {
   })
     .then((response) => {
       display();
-      $(".modify-note").toggleClass("hideme");
+      $(".modify-note").toggleClass("hidden");
       return notyf.success(response.message);
     })
     .catch((error) => {
@@ -186,7 +186,7 @@ function newNote(data) {
   })
     .then((response) => {
       display();
-      $(".add-note").toggleClass("hideme");
+      $(".add-note").toggleClass("hidden");
       return notyf.success(response.message);
     })
     .catch((error) => {
