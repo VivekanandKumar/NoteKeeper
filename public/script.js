@@ -78,42 +78,6 @@ $(document).ready(function () {
   });
 });
 
-function display(lim) {
-  var limit = lim.toString();
-  $.ajax({
-    url: `/notes/${limit}`,
-    type: "GET",
-  })
-    .then((notes) => {
-      $(".notes").empty();
-      notes.forEach((note) => {
-        const date = moment(note.updatedAt).format("DD MMMM, YYYY");
-        const time = moment(note.updatedAt).format("hh:mm a");
-        $(".notes").append(
-          `<div id=${note._id} class="note shadow-md rounded-md border p-3">
-    <header class="font-semibold text-xl mb-1">
-        ${note.title}
-    </header>
-    <article class="text-sm py-2 overflow-hidden h-16">
-        ${note.description}
-    </article>
-    <footer class="mt-4 flex justify-between items-center text-sm font-medium">
-        <div class="">
-            ${date}
-        </div>
-        <div class="">
-            ${time}
-        </div>
-    </footer>
-</div>`
-        );
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-
 function signup(data) {
   $.ajax({
     url: "/user/register",
@@ -198,5 +162,40 @@ function newNote(data) {
     })
     .catch((error) => {
       return console.log(error);
+    });
+}
+function display(lim) {
+  var limit = lim.toString();
+  $.ajax({
+    url: `/notes/${limit}`,
+    type: "GET",
+  })
+    .then((notes) => {
+      $(".notes").empty();
+      notes.forEach((note) => {
+        const date = moment(note.updatedAt).format("DD MMMM, YYYY");
+        const time = moment(note.updatedAt).format("hh:mm a");
+        $(".notes").append(
+          `<div id=${note._id} class="note shadow-md rounded-md border p-3">
+    <header class="font-semibold text-xl mb-1">
+        ${note.title}
+    </header>
+    <article class="text-sm py-2 overflow-hidden h-16">
+        ${note.description}
+    </article>
+    <footer class="mt-4 flex justify-between items-center text-sm font-medium">
+        <div class="">
+            ${date}
+        </div>
+        <div class="">
+            ${time}
+        </div>
+    </footer>
+</div>`
+        );
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
 }
