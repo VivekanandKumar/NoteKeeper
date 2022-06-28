@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const path = require("path");
 const cookieParser = require("cookie-parser");
 const { connect } = require("mongoose");
 const userRoute = require("../routes/userRouter");
@@ -19,7 +20,9 @@ connect(process.env.MONGO_URI, {
   });
 
 // middlewares
+const staticPath = path.join(__dirname + "../public");
 app.use(express.static("public"));
+console.log(staticPath);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

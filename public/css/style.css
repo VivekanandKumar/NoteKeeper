@@ -18,6 +18,8 @@ body {
 .note {
   cursor: pointer;
   transition: box-shadow 0.3s ease;
+  background-color: #feffff;
+  flex: 1 1 330px;
 }
 .note header::first-letter,
 .note article::first-letter {
@@ -28,10 +30,6 @@ body {
 }
 nav {
   box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1) !important;
-}
-.note {
-  background-color: #feffff;
-  flex: 1 1 330px;
 }
 .master textarea {
   max-height: 50vh !important;
@@ -50,8 +48,4 @@ textarea::-webkit-scrollbar {
 .modify-note {
   background: rgba(0, 0, 0, 0.4);
   transition: transform 0.6s ease-in-out;
-}
-
-.hideme {
-  transform: translateX(100%) !important;
 }
